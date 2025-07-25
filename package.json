@@ -15,7 +15,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/icons-vue": "^7.0.1",
     "@types/bun": "^1.2.19",
+    "ant-design-vue": "^4.2.6",
     "monaco-editor": "^0.52.2",
     "monacopilot": "^1.2.7",
     "vue": "^3.5.17"
