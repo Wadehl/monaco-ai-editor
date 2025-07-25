@@ -1,0 +1,25 @@
+{
+  "name": "monacopilot",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite & bun --watch --hot server.ts",
+    "server": "bun --watch server.ts",
+    "server:dev": "bun --watch --hot server.ts",
+    "build": "vue-tsc -b && vite build && bun build server.ts",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@types/bun": "^1.2.19",
+    "monacopilot": "^1.2.7",
+    "vue": "^3.5.17"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.0",
+    "@vue/tsconfig": "^0.7.0",
+    "typescript": "~5.8.3",
+    "vite": "^7.0.4",
+    "vue-tsc": "^2.2.12"
+  }
+}
