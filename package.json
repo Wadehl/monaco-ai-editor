@@ -4,20 +4,27 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite & bun --watch --hot server.ts",
+    "dev": "vite",
+    "dev:node": "vite & pnpm run server:node",
+    "dev:bun": "vite & bun --watch --hot server.ts",
     "server": "bun --watch server.ts",
     "server:dev": "bun --watch --hot server.ts",
+    "server:node": "nodemon --exec tsx server.js",
     "build": "vue-tsc -b && vite build && bun build server.ts",
+    "build:node": "vue-tsc -b && vite build && tsc server.js --outDir dist",
     "preview": "vite preview"
   },
   "dependencies": {
     "@types/bun": "^1.2.19",
+    "monaco-editor": "^0.52.2",
     "monacopilot": "^1.2.7",
     "vue": "^3.5.17"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.0",
     "@vue/tsconfig": "^0.7.0",
+    "nodemon": "^3.0.0",
+    "tsx": "^4.0.0",
     "typescript": "~5.8.3",
     "vite": "^7.0.4",
     "vue-tsc": "^2.2.12"
