@@ -57,7 +57,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
 import { useFullscreen } from '@vueuse/core'
-import monaco from '../monaco-worker'
+import monaco, { setupMonacoEnvironment } from '../monaco-worker'
 import { registerCompletion } from 'monacopilot'
 import { useAIConfig } from '../composables/useAIConfig'
 import { pluginManager } from '../plugins'
@@ -355,6 +355,10 @@ onMounted(async () => {
   if (editorContainer.value) {
     const initialValue = props.modelValue || props.initialValue
     
+    // Setup basic Monaco environment (minimal setup)
+    // Users can configure workers externally before importing this component
+    setupMonacoEnvironment()
+    
     // Install plugins before creating editor
     try {
       if (props.plugins && props.plugins.length > 0) {
@@ -532,7 +536,7 @@ defineExpose({
   width: 100%;
   /* border: 2px solid #444; */
   border-radius: 8px;
-  overflow: hidden;
+  overflow: visible;
   background: #1e1e1e;
 }
 

@@ -288,6 +288,44 @@ const onReady = (editor) => {
             />
 
             <CodeExample 
+              title="3. Monaco Worker Configuration"
+              language="typescript"
+              height="450px"
+              code="// Setup in main.ts (before app mount)
+import { createWorkerConfig, SUPPORTED_LANGUAGES } from 'monaco-ai-editor'
+
+// Option 1: Minimal setup (~1.9MB)
+// Basic syntax highlighting for all 80+ languages
+self.MonacoEnvironment = createWorkerConfig.minimal()
+
+// Option 2: Selective workers (~3-5MB) - Recommended
+// Enable specific language workers for IntelliSense
+self.MonacoEnvironment = createWorkerConfig.selective([
+  'typescript', // TypeScript/JavaScript IntelliSense
+  'json',       // JSON validation and completion
+  'css',        // CSS/SCSS/LESS support
+  'html'        // HTML/Handlebars/Razor support
+])
+
+// Option 3: All workers (~8-10MB)
+// Full language support with IntelliSense for all worker-supported languages
+self.MonacoEnvironment = createWorkerConfig.all()
+
+// All supported languages (80+ languages available)
+console.log('Supported languages:', SUPPORTED_LANGUAGES)
+// ['abap', 'apex', 'cpp', 'csharp', 'go', 'java', 'python', 'rust', ...]
+
+// Component usage (no worker config needed in component)
+&lt;template&gt;
+  &lt;MonacoAIEditor 
+    v-model=&quot;code&quot;
+    language=&quot;python&quot;
+    @ready=&quot;onReady&quot;
+  /&gt;
+&lt;/template&gt;"
+            />
+
+            <CodeExample 
               title="4. External Plugin System - Shiki Syntax Highlighting"
               language="vue"
               height="400px"

@@ -15,6 +15,13 @@ export * from './utils/index'
 export { CONFIG, createConfig } from './config'
 export type { AIConfigOptions } from './config'
 
+// Monaco Worker Utilities
+export { 
+  setupMonacoEnvironment,
+  createWorkerConfig,
+  SUPPORTED_LANGUAGES
+} from './monaco-worker'
+
 // Types
 export type { AIConfig, AIConfigState, ConfigValidation } from './composables/useAIConfig'
 export { validateConfig } from './composables/useAIConfig'

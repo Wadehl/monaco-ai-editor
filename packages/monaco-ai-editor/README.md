@@ -60,7 +60,7 @@ const onEditorReady = (editor) => {
 </script>
 ```
 
-### With AI Configuration
+### With AI Configuration and Monaco Workers
 
 ```vue
 <template>
@@ -76,7 +76,17 @@ const onEditorReady = (editor) => {
 
 <script setup>
 import { ref } from 'vue'
-import { MonacoAIEditor } from 'monaco-ai-editor'
+import { MonacoAIEditor, createWorkerConfig } from 'monaco-ai-editor'
+
+// Setup Monaco workers externally (before component mounts)
+// Option 1: All workers (larger bundle but full language support)
+self.MonacoEnvironment = createWorkerConfig.all()
+
+// Option 2: Selective workers (recommended)
+// self.MonacoEnvironment = createWorkerConfig.selective(['typescript', 'json'])
+
+// Option 3: Minimal (default - smallest bundle)
+// self.MonacoEnvironment = createWorkerConfig.minimal()
 
 const code = ref('')
 
@@ -315,6 +325,68 @@ Supported built-in themes:
 - `github-light` - GitHub Light
 
 ## 🔧 Configuration
+
+### Monaco Worker Configuration
+
+Monaco AI Editor keeps the core bundle minimal (1.9MB) by externalizing Monaco workers. You can configure workers externally based on your needs:
+
+#### Worker Configuration Options
+
+```typescript
+import { createWorkerConfig, SUPPORTED_LANGUAGES } from 'monaco-ai-editor'
+
+// Option 1: All language workers (8-10MB total)
+self.MonacoEnvironment = createWorkerConfig.all()
+
+// Option 2: Selective workers (3-5MB total - recommended)  
+self.MonacoEnvironment = createWorkerConfig.selective(['typescript', 'json', 'css'])
+
+// Option 3: Minimal setup (1.9MB - default)
+self.MonacoEnvironment = createWorkerConfig.minimal()
+```
+
+#### Available Worker Types
+
+- **`typescript`**: TypeScript/JavaScript language support with IntelliSense
+- **`json`**: JSON language support with validation  
+- **`css`**: CSS/SCSS/LESS language support
+- **`html`**: HTML/Handlebars/Razor language support
+
+#### All Supported Languages
+
+The `SUPPORTED_LANGUAGES` constant exports all 80+ languages supported by Monaco Editor:
+
+```typescript
+// All these languages are supported for syntax highlighting
+import { SUPPORTED_LANGUAGES } from 'monaco-ai-editor'
+
+console.log(SUPPORTED_LANGUAGES)
+// ['abap', 'apex', 'azcli', 'bat', 'bicep', 'cameligo', 'clojure', 'coffee',
+//  'cpp', 'csharp', 'css', 'dart', 'dockerfile', 'go', 'html', 'java', 
+//  'javascript', 'json', 'kotlin', 'markdown', 'python', 'rust', 'sql', 
+//  'typescript', 'yaml', ... and many more]
+```
+
+#### Setup Examples
+
+**In your main.ts (before app mount):**
+```typescript
+import { createWorkerConfig } from 'monaco-ai-editor'
+
+// For TypeScript/JavaScript projects
+self.MonacoEnvironment = createWorkerConfig.selective(['typescript', 'json'])
+
+// For full-stack web development  
+self.MonacoEnvironment = createWorkerConfig.selective(['typescript', 'json', 'css', 'html'])
+
+// For minimal bundle size (syntax highlighting only)
+self.MonacoEnvironment = createWorkerConfig.minimal()
+```
+
+**Bundle Size Impact:**
+- **Minimal**: ~1.9MB (basic editor + syntax highlighting for all languages)
+- **Selective (2-3 workers)**: ~3-5MB (adds IntelliSense for selected languages)
+- **All workers**: ~8-10MB (full language support with IntelliSense)
 
 ### AI Configuration Options
 
