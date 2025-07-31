@@ -1,6 +1,6 @@
 {
   "name": "monaco-ai-editor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "AI-powered Monaco Editor component for Vue.js with intelligent code completion and plugin system",
   "keywords": [
