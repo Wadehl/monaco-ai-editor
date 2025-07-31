@@ -7,6 +7,6 @@ pnpm build
 echo "Building example application (skipping type check for deployment)..."
 cd ../example
 # Skip type checking for deployment to avoid build failures
-vite build
+pnpm build
 
 echo "Build completed!"
