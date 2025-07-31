@@ -27,7 +27,7 @@
   ],
   "functions": {
     "packages/example/server/**/*.{js,ts}": {
-      "runtime": "@vercel/node"
+      "runtime": "@vercel/node@18.x"
     }
   }
 }

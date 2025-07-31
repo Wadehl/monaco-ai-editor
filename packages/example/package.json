@@ -6,12 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:node": "vite & pnpm run server:node",
-    "dev:bun": "vite & bun --watch --hot server/server.ts",
-    "server": "bun --watch server/server.ts",
-    "server:dev": "bun --watch --hot server/server.ts",
-    "server:node": "nodemon --exec tsx server/server.js",
-    "build": "vue-tsc -b && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "type-check": "vue-tsc --noEmit"
   },
@@ -32,13 +27,10 @@
     "vue": "^3.5.17"
   },
   "devDependencies": {
-    "@types/bun": "^1.2.19",
     "@vitejs/plugin-vue": "^6.0.0",
     "@vue/tsconfig": "^0.7.0",
     "autoprefixer": "^10.4.21",
-    "nodemon": "^3.0.0",
     "tailwindcss": "^4.1.11",
-    "tsx": "^4.0.0",
     "typescript": "~5.8.3",
     "vite": "^7.0.4",
     "vue-tsc": "^2.2.12"
