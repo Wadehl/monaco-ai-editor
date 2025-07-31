@@ -29,3 +29,14 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Claude AI assistant files
+.claude
+
+# macOS specific files
+._*
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.Trashes
+.fseventsd

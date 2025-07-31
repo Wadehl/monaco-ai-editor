@@ -1,0 +1,80 @@
+{
+  "name": "monaco-ai-editor",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "AI-powered Monaco Editor component for Vue.js with intelligent code completion and plugin system",
+  "keywords": [
+    "monaco-editor",
+    "ai",
+    "code-completion",
+    "vue",
+    "typescript",
+    "plugin-system",
+    "syntax-highlighting",
+    "openai",
+    "claude",
+    "gemini"
+  ],
+  "author": {
+    "name": "KevinKwok",
+    "email": "1171407839@qq.com",
+    "url": "https://github.com/Wadehl"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wadehl/monaco-ai-editor.git",
+    "directory": "packages/monaco-ai-editor"
+  },
+  "homepage": "https://github.com/Wadehl/monaco-ai-editor#readme",
+  "bugs": {
+    "url": "https://github.com/Wadehl/monaco-ai-editor/issues"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js"
+    },
+    "./dist/style.css": "./dist/style.css"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:watch": "vite build --watch",
+    "type-check": "vue-tsc --noEmit",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
+    "preview": "vite preview",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0",
+    "monaco-editor": "^0.52.0"
+  },
+  "dependencies": {
+    "@vueuse/core": "^13.5.0",
+    "monacopilot": "^1.2.7"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.0",
+    "@vue/tsconfig": "^0.7.0",
+    "monaco-editor": "^0.52.2",
+    "typescript": "~5.8.3",
+    "vite": "^7.0.4",
+    "vue": "^3.5.17",
+    "vue-tsc": "^2.2.12"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}
