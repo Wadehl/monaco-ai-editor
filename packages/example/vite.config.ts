@@ -6,6 +6,7 @@ import tailwindcss from '@tailwindcss/vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [vue(), tailwindcss()],
+  base: './', // 使用相对路径以支持 Live Server 等静态文件服务器
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),
