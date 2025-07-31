@@ -27,17 +27,34 @@ interface Props {
   code: string
   language?: string
   height?: string
+  maxHeight?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
   language: 'javascript',
-  height: '200px'
+  height: 'auto',
+  maxHeight: '600px'
 })
 
 const editorContainer = ref<HTMLElement>()
 const isCopied = ref(false)
+const dynamicHeight = ref('200px')
 let editor: monaco.editor.IStandaloneCodeEditor | null = null
 let highlighterInitialized = false
+
+// Calculate dynamic height based on content
+const calculateHeight = () => {
+  if (props.height !== 'auto') {
+    dynamicHeight.value = props.height
+    return
+  }
+  
+  const lines = props.code.split('\n').length
+  const lineHeight = 19 // Monaco's default line height at 14px font
+  const padding = 20 // Some padding for comfort
+  const calculatedHeight = Math.min(lines * lineHeight + padding, parseInt(props.maxHeight))
+  dynamicHeight.value = `${Math.max(calculatedHeight, 100)}px` // Minimum 100px
+}
 
 // Initialize Shiki highlighter
 const initializeShiki = async () => {
@@ -111,12 +128,21 @@ const copyCode = async () => {
 
 // Watch for code changes
 watch(() => props.code, (newCode) => {
+  calculateHeight() // Recalculate height when code changes
   if (editor && newCode !== editor.getValue()) {
     editor.setValue(newCode)
   }
 })
 
+// Watch for height prop changes
+watch(() => props.height, () => {
+  calculateHeight()
+})
+
 onMounted(async () => {
+  // Calculate initial height
+  calculateHeight()
+  
   // Initialize Shiki first
   await initializeShiki()
 
@@ -134,10 +160,8 @@ onMounted(async () => {
       fontSize: 14,
       wordWrap: 'on',
       automaticLayout: true,
-      scrollBeyondLastLine: false,
-      folding: false,
-      lineDecorationsWidth: 0,
-      lineNumbersMinChars: 3,
+      scrollBeyondLastLine: true,
+      folding: true,
       renderLineHighlight: 'none',
       scrollbar: {
         vertical: 'auto',
@@ -226,8 +250,8 @@ onUnmounted(() => {
 }
 
 .code-editor-container {
-  height: v-bind(height);
-  min-height: 150px;
+  height: v-bind(dynamicHeight);
+  min-height: 100px;
 }
 
 /* Remove focus outline */
@@ -259,5 +283,14 @@ onUnmounted(() => {
 
 .code-editor-container :deep(.monaco-editor .line-numbers) {
   color: #858585 !important;
+  padding-right: 12px !important;
+}
+
+.code-editor-container :deep(.monaco-editor .margin) {
+  background: #1e1e1e !important;
+}
+
+.code-editor-container :deep(.monaco-editor .margin-view-overlays) {
+  width: auto !important;
 }
 </style>
