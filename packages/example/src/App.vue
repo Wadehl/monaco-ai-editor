@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, computed } from "vue";
+import { ref, watch } from "vue";
 import { MonacoAIEditor, pluginManager, SUPPORTED_LANGUAGES } from "monaco-ai-editor";
 import CodeExample from "./components/CodeExample.vue";
 import { EXAMPLE_CONFIG } from "./config";
@@ -53,7 +53,7 @@ const features = [
 const editorRef = ref();
 
 // Language and theme selection
-const selectedLanguage = ref(null);
+const selectedLanguage = ref<{ value: string; label: string; ext: string } | null>(null);
 const selectedTheme = ref("one-dark-pro");
 
 // Create language options with file extensions
