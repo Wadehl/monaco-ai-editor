@@ -60,6 +60,35 @@ const onEditorReady = (editor) => {
 </script>
 ```
 
+### Monaco Worker 设置（必需）
+
+**重要：** 在挂载应用前，需在 main.ts 中设置 Monaco workers：
+
+```typescript
+// main.ts
+import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
+import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
+import cssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
+import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
+import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
+
+// 完整语言支持（推荐）
+self.MonacoEnvironment = {
+  getWorker(_, label) {
+    if (label === 'json') return new jsonWorker()
+    if (label === 'css' || label === 'scss' || label === 'less') return new cssWorker()
+    if (label === 'html' || label === 'handlebars' || label === 'razor') return new htmlWorker()
+    if (label === 'typescript' || label === 'javascript') return new tsWorker()
+    return new editorWorker()
+  }
+}
+
+// 然后挂载应用
+import { createApp } from 'vue'
+import App from './App.vue'
+createApp(App).mount('#app')
+```
+
 ### 配置 AI 功能
 
 ```vue
@@ -100,7 +129,7 @@ const handleEditorReady = (editor) => {
 </script>
 ```
 
-### 外部插件系统
+### 外部插件系统（Shiki 示例）
 
 ```vue
 <template>
@@ -113,11 +142,10 @@ const handleEditorReady = (editor) => {
 
 <script setup>
 import { ref } from 'vue'
-import { MonacoAIEditor, pluginManager } from 'monaco-ai-editor'
-import { shikiPlugin } from './plugins/shiki-plugin'
+import { MonacoAIEditor } from 'monaco-ai-editor'
 
-// 注册外部插件
-pluginManager.register(shikiPlugin)
+// 在单独文件中导入和注册插件
+import './plugins-setup'
 
 const code = ref('console.log("Hello World")')
 
@@ -129,6 +157,15 @@ const pluginOptions = {
   }
 }
 </script>
+```
+
+**plugins-setup.ts:**
+```typescript
+import { pluginManager } from 'monaco-ai-editor'
+import { shikiPlugin } from './plugins/shiki-plugin'
+
+// 注册外部插件
+pluginManager.register(shikiPlugin)
 ```
 
 ## 📖 API 参考
@@ -144,7 +181,7 @@ const pluginOptions = {
 | `height` | `string` | `'600px'` | 编辑器高度 |
 | `plugins` | `string[]` | `[]` | 活跃插件 |
 | `pluginOptions` | `object` | `{}` | 插件配置 |
-| `showAIConfigButton` | `boolean` | `true` | 显示 AI 配置按钮 |
+| `show-a-i-config-button` | `boolean` | `true` | 显示 AI 配置按钮 |
 | `requestMode` | `'backend' \| 'browser' \| 'hybrid'` | `'hybrid'` | AI 请求模式 |
 | `aiConfig` | `AIConfigOptions` | `{}` | AI 配置选项 |
 
