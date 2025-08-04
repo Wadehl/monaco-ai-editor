@@ -9,8 +9,9 @@
           <p class="modal-description">Configure your AI service providers and settings</p>
         </div>
         <button class="close-button" @click="handleClose" aria-label="Close">
-          <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-            <path d="m11.7816 4.03157c.0462-.04625.0462-.12084 0-.16709-.0462-.04625-.1208-.04625-.1670 0L7.5 7.94888 3.38388 3.86448c-.04625-.04625-.12084-.04625-.16709 0-.04625.04625-.04625.12084 0 .16709L7.05112 8.5 3.21679 12.3343c-.04625.0462-.04625.1208 0 .1671.04625.0462.12084.0462.16709 0L7.5 8.05112l4.1161 4.08428c.0462.0462.1208.0462.1671 0 .0462-.0463.0462-.1209 0-.1671L7.94888 8.5 11.7816 4.03157Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
+          <svg width="24" height="24" viewBox="0 0 48 48" fill="none">
+            <path d="M8 8L40 40" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8 40L40 8" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
       </div>
@@ -125,11 +126,16 @@
                   @click="toggleApiKeyVisibility"
                   :title="showApiKey ? 'Hide key' : 'Show key'"
                 >
-                  <svg v-if="showApiKey" width="16" height="16" viewBox="0 0 15 15" fill="none">
-                    <path d="M13.3536 2.35355C13.5488 2.15829 13.5488 1.84171 13.3536 1.64645C13.1583 1.45118 12.8417 1.45118 12.6464 1.64645L10.6828 3.61012C9.70652 3.21671 8.63759 3 7.5 3C4.30786 3 1.65639 4.70638 0.0760002 7.23501C-0.0253338 7.39715 -0.0253334 7.60288 0.0760014 7.76501C0.902945 9.08812 2.02314 10.1861 3.36061 10.9323L1.64645 12.6464C1.45118 12.8417 1.45118 13.1583 1.64645 13.3536C1.84171 13.5488 2.15829 13.5488 2.35355 13.3536L4.31723 11.3899C5.29348 11.7833 6.36241 12 7.5 12C10.6921 12 13.3436 10.2936 14.924 7.76501C15.0253 7.60288 15.0253 7.39715 14.924 7.23501C14.0971 5.91190 12.9769 4.81391 11.6394 4.06770L13.3536 2.35355ZM9.90428 4.38861C9.15332 4.1361 8.34759 4 7.5 4C4.80285 4 2.52952 5.37816 1.09622 7.50001C1.87284 8.6497 2.89609 9.58106 4.09974 10.1931L9.90428 4.38861ZM5.09572 10.6114L10.9003 4.80685C12.1039 5.41894 13.1272 6.35031 13.9038 7.50001C12.4705 9.62183 10.1971 11 7.5 11C6.65241 11 5.84668 10.8639 5.09572 10.6114Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
+                  <svg v-if="showApiKey" width="20" height="20" viewBox="0 0 48 48" fill="none">
+                    <path d="M6 16C6.63472 17.2193 7.59646 18.3504 8.82276 19.3554C12.261 22.1733 17.779 24 24 24C30.221 24 35.739 22.1733 39.1772 19.3554C40.4035 18.3504 41.3653 17.2193 42 16" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M28.9775 24L31.048 31.7274" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M37.3535 21.3536L43.0103 27.0104" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M5.00004 27.0103L10.6569 21.3534" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M16.9278 31.7276L18.9983 24.0001" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
-                  <svg v-else width="16" height="16" viewBox="0 0 15 15" fill="none">
-                    <path d="M7.5 11C4.80285 11 2.52952 9.62184 1.09622 7.50001C2.52952 5.37816 4.80285 4 7.5 4C10.1971 4 12.4705 5.37816 13.9038 7.50001C12.4705 9.62183 10.1971 11 7.5 11ZM7.5 3C4.30786 3 1.65639 4.70638 0.0760002 7.23501C-0.0253338 7.39715 -0.0253334 7.60288 0.0760014 7.76501C1.65639 10.2936 4.30786 12 7.5 12C10.6921 12 13.3436 10.2936 14.924 7.76501C15.0253 7.60288 15.0253 7.39715 14.924 7.23501C13.3436 4.70638 10.6921 3 7.5 3ZM7.5 9.5C8.60457 9.5 9.5 8.60457 9.5 7.5C9.5 6.39543 8.60457 5.5 7.5 5.5C6.39543 5.5 5.5 6.39543 5.5 7.5C5.5 8.60457 6.39543 9.5 7.5 9.5Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
+                  <svg v-else width="20" height="20" viewBox="0 0 48 48" fill="none">
+                    <path d="M24 36C35.0457 36 44 24 44 24C44 24 35.0457 12 24 12C12.9543 12 4 24 4 24C4 24 12.9543 36 24 36Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+                    <path d="M24 29C26.7614 29 29 26.7614 29 24C29 21.2386 26.7614 19 24 19C21.2386 19 19 21.2386 19 24C19 26.7614 21.2386 29 24 29Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
                   </svg>
                 </button>
               </div>
@@ -557,9 +563,23 @@ onMounted(() => {
   border: 1px solid #e2e8f0;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 32rem;
+  max-width: 28rem;
   max-height: 90vh;
   overflow-y: auto;
+}
+
+@media (min-width: 640px) {
+  .modal-content {
+    width: 32rem;
+    max-width: 32rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .modal-content {
+    width: 36rem;
+    max-width: 36rem;
+  }
 }
 
 /* Header */
@@ -737,7 +757,7 @@ onMounted(() => {
 /* Form Styles */
 .form-grid {
   display: grid;
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .form-group {
@@ -749,44 +769,67 @@ onMounted(() => {
   font-size: 0.875rem;
   font-weight: 500;
   color: #0f172a;
+  margin-bottom: 0.125rem;
 }
 
 .form-input,
 .form-select {
   display: flex;
+  height: 2.5rem;
   width: 100%;
   border-radius: 0.375rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #d1d5db;
   background-color: #ffffff;
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
-  transition: all 0.2s ease;
+  line-height: 1.25rem;
+  transition: all 0.15s ease-in-out;
+  outline: none;
+  box-sizing: border-box;
 }
 
 .form-input:focus,
 .form-select:focus {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-input:hover:not(:focus):not(.readonly),
+.form-select:hover:not(:focus) {
+  border-color: #9ca3af;
 }
 
 .form-input.readonly {
-  background-color: #f1f5f9;
-  color: #64748b;
+  background-color: #f9fafb;
+  color: #6b7280;
   cursor: not-allowed;
+  border-color: #e5e7eb;
 }
 
 .form-input::placeholder {
-  color: #64748b;
+  color: #9ca3af;
+}
+
+.form-select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5rem 1.5rem;
+  padding-right: 2.5rem;
+  appearance: none;
 }
 
 /* Input with Button */
 .input-with-button {
-  display: flex;
   position: relative;
+  display: flex;
+  width: 100%;
 }
 
 .input-with-button .form-input {
-  padding-right: 3rem;
+  padding-right: 2.5rem;
+  height: 2.5rem;
 }
 
 .input-button {
@@ -797,16 +840,18 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 0.75rem;
+  width: 2.5rem;
   background: none;
   border: none;
-  color: #64748b;
+  color: #6b7280;
   cursor: pointer;
-  transition: color 0.2s ease;
+  transition: color 0.15s ease;
+  border-radius: 0 0.375rem 0.375rem 0;
 }
 
 .input-button:hover {
-  color: #0f172a;
+  color: #374151;
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 /* Model Input */
@@ -832,14 +877,14 @@ onMounted(() => {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid #e2e8f0;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
 }
 
 .button-group {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.75rem;
 }
 
 .button {
@@ -851,45 +896,65 @@ onMounted(() => {
   font-size: 0.875rem;
   font-weight: 500;
   padding: 0.5rem 1rem;
-  transition: all 0.2s ease;
+  height: 2.25rem;
+  transition: all 0.15s ease;
   cursor: pointer;
   border: 1px solid transparent;
+  white-space: nowrap;
+  outline: none;
+  focus-visible: outline-2 outline-offset-2;
 }
 
 .button:disabled {
   pointer-events: none;
   opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .button.primary {
-  background-color: #3b82f6;
+  background-color: #2563eb;
   color: #ffffff;
-  border-color: #3b82f6;
+  border-color: #2563eb;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 .button.primary:hover:not(:disabled) {
-  background-color: #2563eb;
+  background-color: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+.button.primary:focus-visible {
+  outline-color: #2563eb;
 }
 
 .button.secondary {
-  background-color: #f1f5f9;
-  color: #0f172a;
-  border-color: #e2e8f0;
+  background-color: #f9fafb;
+  color: #374151;
+  border-color: #d1d5db;
 }
 
 .button.secondary:hover:not(:disabled) {
-  background-color: #e2e8f0;
+  background-color: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.button.secondary:focus-visible {
+  outline-color: #6b7280;
 }
 
 .button.outline {
   background-color: #ffffff;
-  color: #0f172a;
-  border-color: #e2e8f0;
+  color: #374151;
+  border-color: #d1d5db;
 }
 
 .button.outline:hover:not(:disabled) {
-  background-color: #f1f5f9;
-  color: #0f172a;
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.button.outline:focus-visible {
+  outline-color: #6b7280;
 }
 
 .button-icon {

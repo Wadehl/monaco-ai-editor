@@ -64,10 +64,10 @@ const STORAGE_KEY = 'monaco-ai-config'
 
 // Default browser configuration
 const getDefaultBrowserConfig = (config: AIConfigOptions): AIConfig => ({
-  provider: config.BROWSER_AI.CURRENT_PROVIDER,
-  baseUrl: config.BROWSER_AI[config.BROWSER_AI.CURRENT_PROVIDER.toUpperCase() as keyof typeof config.BROWSER_AI].BASE_URL,
-  apiKey: config.BROWSER_AI[config.BROWSER_AI.CURRENT_PROVIDER.toUpperCase() as keyof typeof config.BROWSER_AI].API_KEY,
-  model: config.BROWSER_AI[config.BROWSER_AI.CURRENT_PROVIDER.toUpperCase() as keyof typeof config.BROWSER_AI].MODEL,
+  provider: config.BROWSER_AI?.CURRENT_PROVIDER || 'anthropic',
+  baseUrl: (config.BROWSER_AI?.[config.BROWSER_AI?.CURRENT_PROVIDER?.toUpperCase() as 'ANTHROPIC' | 'OPENAI' | 'GEMINI'] as any)?.BASE_URL || '',
+  apiKey: (config.BROWSER_AI?.[config.BROWSER_AI?.CURRENT_PROVIDER?.toUpperCase() as 'ANTHROPIC' | 'OPENAI' | 'GEMINI'] as any)?.API_KEY || '',
+  model: (config.BROWSER_AI?.[config.BROWSER_AI?.CURRENT_PROVIDER?.toUpperCase() as 'ANTHROPIC' | 'OPENAI' | 'GEMINI'] as any)?.MODEL || '',
 })
 
 // Load configuration from local storage
@@ -104,7 +104,6 @@ export function useAIConfig(
   const CONFIG = createConfig(userConfig)
   
   // State management
-  const isBackendConnected = ref(false)
   const isCheckingBackend = ref(false)
   
   // Configuration state
@@ -112,7 +111,7 @@ export function useAIConfig(
     backend: getDefaultBrowserConfig(CONFIG),
     browser: loadConfigFromStorage(CONFIG),
     isBackendConnected: false,
-    currentMode: requestMode === 'browser' ? 'browser' : 'hybrid'
+    currentMode: requestMode === 'browser' ? 'browser' : (requestMode === 'backend' ? 'backend' : 'browser') as 'backend' | 'browser'
   })
 
   // Currently used configuration
@@ -128,11 +127,12 @@ export function useAIConfig(
     try {
       const response = await fetch(`${CONFIG.BACKEND_URL}/health`, {
         method: 'GET',
-        timeout: 5000,
+        signal: AbortSignal.timeout(5000),
       })
       
       if (response.ok) {
         const data = await response.json()
+        void data // use data to prevent ts error
         
         // If backend returns configuration info, update backend config
         if (data.config) {
@@ -190,7 +190,7 @@ export function useAIConfig(
 
       if (response.ok) {
         const data = await response.json()
-        const text = transformCompletionResponse(config.provider, data)
+        void data // use data to prevent ts error
         return true
       } else {
         console.error('Config test failed:', response.status, response.statusText)
@@ -239,7 +239,8 @@ export function useAIConfig(
       contextParts.push(`Technologies used: ${metadata.technologies.join(', ')}`)
     }
     if (metadata.relatedFiles && metadata.relatedFiles.length > 0) {
-      contextParts.push(`Related files: ${metadata.relatedFiles.map(f => f.path).join(', ')}`)
+      const filesList = metadata.relatedFiles.map((f: any) => f.path).join(', ')
+      contextParts.push(`Related files: ${filesList}`)
     }
 
     // Build file content (before cursor + after cursor)
@@ -255,9 +256,6 @@ export function useAIConfig(
   // Get current effective AI completion function
   const getCompletionFunction = () => {
     return async (body: any) => {
-      
-      const config = currentConfig.value
-      
       // Convert body to prompt format
       const prompt = transformBodyToPrompt(body)
       
@@ -354,7 +352,7 @@ export function useAIConfig(
       return { completion: text }
     } catch (error) {
       console.error('Browser completion error:', error)
-      return { completion: null, error: error.message || 'Completion request failed' }
+      return { completion: null, error: (error as Error).message || 'Completion request failed' }
     }
   }
 

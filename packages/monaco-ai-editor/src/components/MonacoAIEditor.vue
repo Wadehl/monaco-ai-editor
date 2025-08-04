@@ -13,10 +13,10 @@
           class="ai-config-button" 
           title="AI Configuration"
         >
-          <svg width="16" height="16" viewBox="0 0 15 15" fill="none">
-            <path d="M7.07926 0.222253C7.31275 -0.007434 7.6873 -0.007434 7.92079 0.222253L14.6708 6.86227C14.907 7.09465 14.907 7.47872 14.6708 7.7111C14.4346 7.94348 14.0505 7.94348 13.8143 7.7111L7.50002 1.49701L1.18577 7.7111C0.949548 7.94348 0.565483 7.94348 0.329262 7.7111C0.0930403 7.47872 0.0930403 7.09465 0.329262 6.86227L7.07926 0.222253ZM7.07926 14.7778C7.31275 15.0074 7.6873 15.0074 7.92079 14.7778L14.6708 8.13773C14.907 7.90535 14.907 7.52128 14.6708 7.2889C14.4346 7.05652 14.0505 7.05652 13.8143 7.2889L7.50002 13.503L1.18577 7.2889C0.949548 7.05652 0.565483 7.05652 0.329262 7.2889C0.0930403 7.52128 0.0930403 7.90535 0.329262 8.13773L7.07926 14.7778Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
+          <svg width="20" height="20" viewBox="0 0 48 48" fill="none">
+            <path d="M24 4L18 10H10V18L4 24L10 30V38H18L24 44L30 38H38V30L44 24L38 18V10H30L24 4Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M24 30C27.3137 30 30 27.3137 30 24C30 20.6863 27.3137 18 24 18C20.6863 18 18 20.6863 18 24C18 27.3137 20.6863 30 24 30Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
           </svg>
-          <span class="button-text">AI Config</span>
           <div class="status-indicator" :class="{ 'configured': browserConfig.apiKey }">
             <svg v-if="browserConfig.apiKey" width="12" height="12" viewBox="0 0 15 15" fill="none">
               <path d="M11.4669 3.72684C11.7558 3.91574 11.8369 4.30308 11.648 4.59198L7.39799 11.092C7.29783 11.2452 7.13556 11.3467 6.95402 11.3699C6.77247 11.3931 6.58989 11.3355 6.45446 11.2124L3.70446 8.71241C3.44905 8.48022 3.43023 8.08494 3.66242 7.82953C3.89461 7.57412 4.28989 7.55529 4.5453 7.78749L6.75292 9.79441L10.6018 3.90792C10.7907 3.61902 11.178 3.53795 11.4669 3.72684Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
@@ -131,7 +131,6 @@ const { isFullscreen, toggle: toggleFullscreen } = useFullscreen(container, {
 const { 
   browserConfig, 
   isBackendConnected, 
-  currentMode, 
   testConfig, 
   saveBrowserConfig,
   getCompletionFunction
@@ -172,7 +171,7 @@ const updateToolbarTheme = () => {
     
     if (bgMatch && colorMatch) {
       const [, bgR, bgG, bgB] = bgMatch.map(Number)
-      const [, fgR, fgG, fgB] = colorMatch.map(Number)
+      const [, , ,] = colorMatch.map(Number)
       
       // Calculate brightness to determine if it's light or dark theme
       const bgBrightness = (bgR * 299 + bgG * 587 + bgB * 114) / 1000
@@ -337,17 +336,17 @@ const setupAICompletion = (language: string) => {
           return completion
         } catch (error) {
           console.error('AI completion failed:', error)
-          return { completion: null, error: error.message || 'Completion failed' }
+          return { completion: null, error: (error as Error).message || 'Completion failed' }
         }
       }
     })
     
     // Store disposer if it's returned and has dispose method
-    if (result && typeof result.dispose === 'function') {
-      currentCompletionDisposer = result
+    if (result && typeof (result as any).dispose === 'function') {
+      currentCompletionDisposer = result as any
     } else if (result && typeof result === 'object') {
       // Some libraries might return different disposal patterns
-      currentCompletionDisposer = result
+      currentCompletionDisposer = result as any
     }
     
     console.log(`AI completion registered for language: ${language}`)
@@ -497,7 +496,7 @@ onMounted(async () => {
       })
       
       // Store observer for cleanup
-      editorContainer.value._themeObserver = observer
+      ;(editorContainer.value as any)._themeObserver = observer
     }
   }
 })
@@ -514,9 +513,9 @@ onUnmounted(async () => {
   }
   
   // Cleanup theme observer
-  if (editorContainer.value && editorContainer.value._themeObserver) {
-    editorContainer.value._themeObserver.disconnect()
-    delete editorContainer.value._themeObserver
+  if (editorContainer.value && (editorContainer.value as any)._themeObserver) {
+    ;(editorContainer.value as any)._themeObserver.disconnect()
+    delete (editorContainer.value as any)._themeObserver
   }
   
   // Uninstall plugins
