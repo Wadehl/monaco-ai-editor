@@ -513,33 +513,33 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
-/* Base variables definition (based on Shadcn design system) */
-:root {
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 222.2 84% 4.9%;
-  --primary: 221.2 83.2% 53.3%;
-  --primary-foreground: 210 40% 98%;
-  --secondary: 210 40% 96%;
-  --secondary-foreground: 222.2 84% 4.9%;
-  --muted: 210 40% 96%;
-  --muted-foreground: 215.4 16.3% 46.9%;
-  --accent: 210 40% 96%;
-  --accent-foreground: 222.2 84% 4.9%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 221.2 83.2% 53.3%;
-  --radius: 0.5rem;
-}
-
-/* Modal 样式 */
+<style>
+/* Scoped styles for monaco-ai-editor modal only */
+/* Prefix all CSS variables to avoid global pollution */
 .modal-overlay {
+  /* Monaco AI Editor specific design system variables */
+  --monaco-ai-background: 0 0% 100%;
+  --monaco-ai-foreground: 222.2 84% 4.9%;
+  --monaco-ai-card: 0 0% 100%;
+  --monaco-ai-card-foreground: 222.2 84% 4.9%;
+  --monaco-ai-popover: 0 0% 100%;
+  --monaco-ai-popover-foreground: 222.2 84% 4.9%;
+  --monaco-ai-primary: 221.2 83.2% 53.3%;
+  --monaco-ai-primary-foreground: 210 40% 98%;
+  --monaco-ai-secondary: 210 40% 96%;
+  --monaco-ai-secondary-foreground: 222.2 84% 4.9%;
+  --monaco-ai-muted: 210 40% 96%;
+  --monaco-ai-muted-foreground: 215.4 16.3% 46.9%;
+  --monaco-ai-accent: 210 40% 96%;
+  --monaco-ai-accent-foreground: 222.2 84% 4.9%;
+  --monaco-ai-destructive: 0 84.2% 60.2%;
+  --monaco-ai-destructive-foreground: 210 40% 98%;
+  --monaco-ai-border: 214.3 31.8% 91.4%;
+  --monaco-ai-input: 214.3 31.8% 91.4%;
+  --monaco-ai-ring: 221.2 83.2% 53.3%;
+  --monaco-ai-radius: 0.5rem;
+  
+  /* Modal positioning and appearance */
   position: fixed;
   inset: 0;
   z-index: 50;
@@ -719,7 +719,7 @@ onMounted(() => {
 
 .section-badge {
   padding: 0.125rem 0.5rem;
-  border-radius: calc(var(--radius) - 2px);
+  border-radius: calc(var(--monaco-ai-radius) - 2px);
   font-size: 0.75rem;
   font-weight: 500;
 }

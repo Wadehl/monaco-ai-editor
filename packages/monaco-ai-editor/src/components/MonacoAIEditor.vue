@@ -1,7 +1,7 @@
 <template>
   <div class="monaco-ai-editor">
     <!-- Toolbar -->
-    <div class="editor-toolbar" :style="toolbarStyles">
+    <div class="editor-toolbar test-class" :style="toolbarStyles">
       <div class="toolbar-left">
         <!-- Status indicator removed -->
       </div>
@@ -39,7 +39,7 @@
     </div>
 
     <!-- Monaco Editor Container -->
-    <div ref="container" class="monaco-editor-container" :class="{ 'fullscreen': isFullscreen }">
+    <div ref="container" class="monaco-editor-container" :class="{ 'fullscreen': isFullscreen }" :style="containerStyles">
       <div ref="editorContainer" class="editor-content"></div>
     </div>
 
@@ -136,6 +136,11 @@ const {
   saveBrowserConfig,
   getCompletionFunction
 } = useAIConfig(props.aiConfig, props.requestMode)
+
+// Compute styles for the container
+const containerStyles = computed(() => ({
+  height: props.height
+}))
 
 // Compute toolbar styles based on current theme
 const toolbarStyles = ref({
@@ -390,6 +395,11 @@ onMounted(async () => {
       minimap: { enabled: false },
       fontSize: 14,
       wordWrap: 'on',
+      // Explicitly set dimensions to ensure proper rendering
+      dimension: {
+        width: editorContainer.value.clientWidth || 800,
+        height: parseInt(props.height?.replace('px', '') || '600') - 40 // Account for toolbar height
+      },
       quickSuggestions: {
         other: true,
         comments: true,
@@ -529,7 +539,8 @@ defineExpose({
 })
 </script>
 
-<style scoped>
+<style>
+/* Remove scoped to ensure styles are globally available */
 .monaco-ai-editor {
   display: flex;
   flex-direction: column;
@@ -549,6 +560,8 @@ defineExpose({
   color: var(--toolbar-fg, #cccccc);
   padding: 8px 12px;
   gap: 12px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }
 
 .toolbar-left {
@@ -651,8 +664,10 @@ defineExpose({
 .monaco-editor-container {
   position: relative;
   width: 100%;
-  height: v-bind(height);
   min-height: 400px;
+  overflow: hidden; /* Prevent scrollbars in container */
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 
 .monaco-editor-container.fullscreen {
@@ -669,11 +684,50 @@ defineExpose({
 .editor-content {
   width: 100%;
   height: 100%;
+  min-height: inherit; /* Inherit minimum height from container */
+}
+
+/* Fix Monaco Editor line number spacing */
+.editor-content :deep(.monaco-editor .margin) {
+  background-color: inherit;
+}
+
+.editor-content :deep(.monaco-editor .margin .margin-view-overlays) {
+  padding-left: 8px;
+}
+
+.editor-content :deep(.monaco-editor .line-numbers) {
+  text-align: right;
+  padding-right: 8px !important;
+  min-width: 40px;
+}
+
+.editor-content :deep(.monaco-editor .view-lines) {
+  padding-left: 8px;
+}
+
+/* Ensure proper Monaco Editor styling */
+.editor-content :deep(.monaco-editor) {
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.4;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  overflow: hidden;
 }
 
 /* Fullscreen adjustments */
 .fullscreen .editor-toolbar {
   padding: 12px 16px;
+  border-radius: 0;
+}
+
+.fullscreen .monaco-editor-container {
+  border-radius: 0;
+}
+
+.fullscreen .editor-content :deep(.monaco-editor) {
+  border-radius: 0;
 }
 
 .fullscreen .toolbar-btn,

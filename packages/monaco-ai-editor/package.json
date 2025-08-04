@@ -45,7 +45,8 @@
       "import": "./dist/index.esm.js",
       "require": "./dist/index.js"
     },
-    "./dist/style.css": "./dist/style.css"
+    "./dist/monaco-ai-editor.css": "./dist/monaco-ai-editor.css",
+    "./dist/*.css": "./dist/*.css"
   },
   "scripts": {
     "dev": "vite",

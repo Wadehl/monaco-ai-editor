@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+/* Fix for Monaco AI Editor text alignment */
+.monaco-ai-editor {
+  text-align: left;
+}

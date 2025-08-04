@@ -601,15 +601,29 @@ const onReady = (editor) => {
             title="2. Worker Configuration (Required)"
             language="typescript"
             code="// main.ts - Setup before app mount
-import { createWorkerConfig } from 'monaco-ai-editor'
+import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
+import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
+import cssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
+import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
+import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 
-// Minimal setup (~1.9MB) - Basic syntax highlighting
-self.MonacoEnvironment = createWorkerConfig.minimal()
+// Option 1: Full language support (~8-10MB) - Recommended for development
+self.MonacoEnvironment = {
+  getWorker(_, label) {
+    if (label === 'json') return new jsonWorker()
+    if (label === 'css' || label === 'scss' || label === 'less') return new cssWorker()
+    if (label === 'html' || label === 'handlebars' || label === 'razor') return new htmlWorker()
+    if (label === 'typescript' || label === 'javascript') return new tsWorker()
+    return new editorWorker()
+  }
+}
 
-// OR Selective workers (~3-5MB) - Recommended
-self.MonacoEnvironment = createWorkerConfig.selective([
-  'typescript', 'json', 'css', 'html'
-])
+// Option 2: Basic editor only (~1.9MB) - Minimal setup
+// self.MonacoEnvironment = {
+//   getWorker() {
+//     return new editorWorker()
+//   }
+// }
 
 // Then mount your app
 import { createApp } from 'vue'
@@ -651,7 +665,7 @@ createApp(App).mount('#app')"
 
 <script setup>
 import { ref } from 'vue'
-import { MonacoAIEditor } from './monaco-ai-editor'
+import { MonacoAIEditor } from 'monaco-ai-editor'
 
 const code = ref('console.log(&quot;Hello World&quot;)')
 const onReady = (editor) => {
@@ -677,34 +691,77 @@ const onReady = (editor) => {
   getProviderHeaders,
   buildProviderUrl,
   
+  // Monaco Worker Utils
+  setupMonacoEnvironment,
+  SUPPORTED_LANGUAGES,
+  
   // Config & Types
   CONFIG,
   type AIConfig
-} from './monaco-ai-editor'"
+} from 'monaco-ai-editor'"
             />
 
             <CodeExample
               title="Monaco Worker Configuration"
               language="typescript"
               code="// Setup in main.ts (before app mount)
-import { createWorkerConfig, SUPPORTED_LANGUAGES } from 'monaco-ai-editor'
+import { SUPPORTED_LANGUAGES } from 'monaco-ai-editor'
 
-// Option 1: Minimal setup (~1.9MB)
+// Option 1: Basic editor only (~1.9MB)
 // Basic syntax highlighting for all 80+ languages
-self.MonacoEnvironment = createWorkerConfig.minimal()
+import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 
-// Option 2: Selective workers (~3-5MB) - Recommended
+self.MonacoEnvironment = {
+  getWorker() {
+    return new editorWorker()
+  }
+}
+
+// Option 2: Full language support (~8-10MB) - Recommended
 // Enable specific language workers for IntelliSense
-self.MonacoEnvironment = createWorkerConfig.selective([
-  'typescript', // TypeScript/JavaScript IntelliSense
-  'json',       // JSON validation and completion
-  'css',        // CSS/SCSS/LESS support
-  'html'        // HTML/Handlebars/Razor support
-])
+import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
+import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
+import cssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
+import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
+import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 
-// Option 3: All workers (~8-10MB)
-// Full language support with IntelliSense for all worker-supported languages
-self.MonacoEnvironment = createWorkerConfig.all()
+self.MonacoEnvironment = {
+  getWorker(_, label) {
+    if (label === 'json') return new jsonWorker()
+    if (label === 'css' || label === 'scss' || label === 'less') return new cssWorker()
+    if (label === 'html' || label === 'handlebars' || label === 'razor') return new htmlWorker()
+    if (label === 'typescript' || label === 'javascript') return new tsWorker()
+    return new editorWorker()
+  }
+}
+
+// Option 3: Dynamic imports (better code splitting)
+self.MonacoEnvironment = {
+  getWorker: async (_, label) => {
+    switch (label) {
+      case 'json':
+        const { default: jsonWorker } = await import('monaco-editor/esm/vs/language/json/json.worker?worker')
+        return new jsonWorker()
+      case 'css':
+      case 'scss':
+      case 'less':
+        const { default: cssWorker } = await import('monaco-editor/esm/vs/language/css/css.worker?worker')
+        return new cssWorker()
+      case 'html':
+      case 'handlebars':
+      case 'razor':
+        const { default: htmlWorker } = await import('monaco-editor/esm/vs/language/html/html.worker?worker')
+        return new htmlWorker()
+      case 'typescript':
+      case 'javascript':
+        const { default: tsWorker } = await import('monaco-editor/esm/vs/language/typescript/ts.worker?worker')
+        return new tsWorker()
+      default:
+        const { default: editorWorker } = await import('monaco-editor/esm/vs/editor/editor.worker?worker')
+        return new editorWorker()
+    }
+  }
+}
 
 // All supported languages (80+ languages available)
 console.log('Supported languages:', SUPPORTED_LANGUAGES)
@@ -763,7 +820,7 @@ console.log('Supported languages:', SUPPORTED_LANGUAGES)
               <CodeExample
                 title="Creating Custom Plugins"
                 language="typescript"
-                code="import { MonacoPlugin, pluginManager } from './monaco-ai-editor'
+                code="import { MonacoPlugin, pluginManager } from 'monaco-ai-editor'
 
 // Define a custom plugin
 const myCustomPlugin: MonacoPlugin = {

@@ -1,3 +1,6 @@
+// Styles (import CSS automatically with the package)
+import './style.css'
+
 // Main component
 export { default as MonacoAIEditor } from './components/MonacoAIEditor.vue'
 export { default as AIConfigPanel } from './components/AIConfigPanel.vue'
@@ -18,7 +21,7 @@ export type { AIConfigOptions } from './config'
 // Monaco Worker Utilities
 export { 
   setupMonacoEnvironment,
-  createWorkerConfig,
+  WORKER_SETUP_EXAMPLES,
   SUPPORTED_LANGUAGES
 } from './monaco-worker'
 
