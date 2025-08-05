@@ -17,7 +17,6 @@ export default defineConfig({
       external: [
         'vue',
         'monaco-editor',
-        '@vueuse/core',
         // Externalize Monaco worker imports to avoid bundling
         /^monaco-editor\/esm\/vs\/.*\.worker(\?worker)?$/
       ],
@@ -25,8 +24,7 @@ export default defineConfig({
         // Provide global variables to use in the UMD build for externalized deps
         globals: {
           vue: 'Vue',
-          'monaco-editor': 'monaco',
-          '@vueuse/core': 'VueUse'
+          'monaco-editor': 'monaco'
         }
       }
     },

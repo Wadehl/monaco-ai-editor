@@ -62,7 +62,6 @@
     "monaco-editor": "^0.52.0"
   },
   "dependencies": {
-    "@vueuse/core": "^13.5.0",
     "monacopilot": "^1.2.7"
   },
   "devDependencies": {

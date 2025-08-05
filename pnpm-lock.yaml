@@ -87,9 +87,6 @@ importers:
 
   packages/monaco-ai-editor:
     dependencies:
-      '@vueuse/core':
-        specifier: ^13.5.0
-        version: 13.5.0(vue@3.5.18(typescript@5.8.3))
       monacopilot:
         specifier: ^1.2.7
         version: 1.2.7(monaco-editor@0.52.2)

@@ -56,7 +56,6 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
-import { useFullscreen } from '@vueuse/core'
 import monaco, { setupMonacoEnvironment } from '../monaco-worker'
 import { registerCompletion } from 'monacopilot'
 import { useAIConfig } from '../composables/useAIConfig'
@@ -122,10 +121,29 @@ const showAIConfig = ref(false)
 let editor: monaco.editor.IStandaloneCodeEditor | null = null
 let currentCompletionDisposer: { dispose: () => void } | null = null
 
-// Use fullscreen functionality
-const { isFullscreen, toggle: toggleFullscreen } = useFullscreen(container, {
-  autoExit: true
-})
+// Fullscreen functionality
+const isFullscreen = ref(false)
+
+const toggleFullscreen = async () => {
+  if (!container.value) return
+  
+  try {
+    if (!document.fullscreenElement) {
+      await container.value.requestFullscreen()
+      isFullscreen.value = true
+    } else {
+      await document.exitFullscreen()
+      isFullscreen.value = false
+    }
+  } catch (error) {
+    console.warn('Fullscreen operation failed:', error)
+  }
+}
+
+// Listen for fullscreen changes
+const handleFullscreenChange = () => {
+  isFullscreen.value = !!document.fullscreenElement
+}
 
 // Use AI configuration management
 const { 
@@ -356,6 +374,9 @@ const setupAICompletion = (language: string) => {
 }
 
 onMounted(async () => {
+  // Add fullscreen event listener
+  document.addEventListener('fullscreenchange', handleFullscreenChange)
+  
   if (editorContainer.value) {
     const initialValue = props.modelValue || props.initialValue
     
@@ -502,6 +523,9 @@ onMounted(async () => {
 })
 
 onUnmounted(async () => {
+  // Remove fullscreen event listener
+  document.removeEventListener('fullscreenchange', handleFullscreenChange)
+  
   // Cleanup AI completion registration
   if (currentCompletionDisposer && typeof currentCompletionDisposer.dispose === 'function') {
     try {
